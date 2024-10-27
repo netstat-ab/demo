@@ -1,0 +1,5 @@
+/.idea/
+/.venv/
+.bash_history
+.env
+.python-version

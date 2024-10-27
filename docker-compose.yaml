@@ -1,0 +1,44 @@
+networks:
+  default:
+    name: demo
+    external: true
+
+services:
+  backend:
+    image: local/demo_backend
+    env_file: [ .env ]
+    platform: linux/amd64
+    build:
+      dockerfile: backend/Dockerfile
+      args:
+        - UID=${UID:?err}
+        - GID=${GID:?err}
+    volumes: [ ./backend:/app:rw ]
+    command: ['fastapi', 'run']
+    networks:
+      default:
+        aliases: [ demo-backend ]
+
+  frontend:
+    image: node:22-bookworm
+    platform: linux/amd64
+    volumes: [ ./frontend:/app:rw ]
+    command: ['npm', 'start']
+    ports:
+      - ${WDS_SOCKET_PORT:?3000}:3000
+    env_file: [ .env ]
+    networks:
+      default:
+        aliases: [ demo-frontend ]
+    working_dir: /app
+
+  gateway:
+    image: nginx:1.26-bookworm-perl
+    ports:
+      - ${EXPOSE_API_PORT:?8000}:80
+    volumes:
+      - ./gateway/logs:/var/log/nginx:rw
+      - ./gateway/conf.d:/etc/nginx/conf.d:rw
+    command: [ "nginx", "-g", "daemon off;" ]
+    depends_on: [backend, frontend]
+    restart: always
