@@ -11,6 +11,9 @@ python = "^3.12"
 fastapi = {version = "^0.115.3", extras = ["standard"]}
 sqlmodel = "^0.0.22"
 alembic = "^1.13.3"
+asyncpg = "^0.30.0"
+pydantic-settings = "^2.6.0"
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.36"}
 
 
 [build-system]

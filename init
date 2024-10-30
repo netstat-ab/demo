@@ -1,0 +1,7 @@
+#!/bin/bash
+
+docker volume create demo_postgres_data 1</dev/null 2</dev/null \
+  && echo volume demo_postgres_data created
+
+docker network inspect demo 1</dev/null 2>/dev/null \
+  || (docker network create demo && echo network demo created)
