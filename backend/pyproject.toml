@@ -9,6 +9,8 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.12"
 fastapi = {version = "^0.115.3", extras = ["standard"]}
+sqlmodel = "^0.0.22"
+alembic = "^1.13.3"
 
 
 [build-system]
